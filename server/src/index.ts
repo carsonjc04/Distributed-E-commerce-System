@@ -15,10 +15,8 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Create HTTP server
 const httpServer = createServer(app);
 
-// Initialize Socket.IO
 initSocket(httpServer);
 
 app.get('/health', (req, res) => {
@@ -33,14 +31,12 @@ app.post('/api/hold', async (req, res) => {
     }
 
     try {
-        // 1. Check Idempotency
         const cachedResult = await checkIdempotency(idempotencyKey);
         if (cachedResult) {
             res.set('x-idempotency-hit', 'true');
             return res.status(cachedResult.status).json(cachedResult.body);
         }
 
-        // 2. Attempt Reserve
         const success = await attemptReserveStock(userId, productId);
 
         if (success) {
@@ -51,7 +47,6 @@ app.post('/api/hold', async (req, res) => {
             await saveIdempotency(idempotencyKey, { status: 200, body: responseBody });
 
             // Broadcast new stock to admins
-            // We need to fetch the current stock to be accurate
             const currentStock = await redis.get(`inventory:${productId}`);
             if (currentStock) {
                 broadcastInventory(productId, parseInt(currentStock));
@@ -70,7 +65,6 @@ app.post('/api/hold', async (req, res) => {
     }
 });
 
-// Restock endpoint for Ops
 app.post('/api/restock', async (req, res) => {
     const { productId, amount } = req.body;
 
@@ -83,7 +77,6 @@ app.post('/api/restock', async (req, res) => {
     res.json({ message: `Restocked ${productId} to ${amount}` });
 });
 
-// Temporary helper to set initial stock for testing
 app.post('/api/admin/inventory', async (req, res) => {
     const { productId, count } = req.body;
     await initializeInventory(productId, count);

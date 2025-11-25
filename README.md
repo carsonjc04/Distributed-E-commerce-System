@@ -39,3 +39,17 @@ sequenceDiagram
         API-->>User: 409 Conflict (Sold Out)
     end
 ```
+
+## 🧠 Design Decisions & Trade-offs
+
+### Redis vs. Database Locking
+I chose **Redis Lua scripts** over DynamoDB conditional writes for speed (~2ms vs ~20ms).
+- **Trade-off:** This introduces a complexity where Redis is the "source of truth" for inventory. If Redis crashes without persistence, inventory counts could desync. In a production v2, I would implement a write-through strategy or use Redis AOF persistence.
+
+### SQS Asynchronicity
+Using **SQS** prevents database overload but introduces eventual consistency. The user sees "Success" instantly, but the order isn't technically saved to disk for another ~100ms.
+- **Trade-off:** If the worker crashes after the API responds but before saving to DB, we could lose an order record (though the stock is already deducted). I handled this by ensuring the worker only deletes the message *after* successful processing.
+
+### Optimistic UI
+The frontend decrements stock *immediately* upon clicking "Buy".
+- **Trade-off:** If the API call fails (e.g., network error), the UI lies to the user for a split second. I handled this with a **Redux Rollback** mechanism that increments the stock back if the promise is rejected.

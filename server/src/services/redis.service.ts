@@ -5,7 +5,6 @@ const redis = new Redis({
   port: Number(process.env.REDIS_PORT) || 6379,
 });
 
-// Lua script to atomically check stock, decrement, and set a hold key
 const RESERVE_STOCK_SCRIPT = `
   local inventoryKey = KEYS[1]
   local holdKey = KEYS[2]
@@ -33,7 +32,7 @@ export const attemptReserveStock = async (userId: string, productId: string): Pr
   try {
     const result = await redis.eval(
       RESERVE_STOCK_SCRIPT,
-      2, // Number of keys
+      2,
       inventoryKey,
       holdKey,
       ttlSeconds

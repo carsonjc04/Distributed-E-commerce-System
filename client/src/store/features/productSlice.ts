@@ -41,19 +41,16 @@ const productSlice = createSlice({
         builder
             .addCase(purchaseItem.pending, (state) => {
                 state.status = 'loading';
-                // Optimistic Update: Decrement immediately
                 if (state.stock > 0) {
                     state.stock -= 1;
                 }
             })
             .addCase(purchaseItem.fulfilled, (state) => {
                 state.status = 'succeeded';
-                // Do nothing, stock is already decremented
             })
             .addCase(purchaseItem.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message || 'Purchase failed';
-                // Rollback: Increment stock back
                 state.stock += 1;
             });
     },
