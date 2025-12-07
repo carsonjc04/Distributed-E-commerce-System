@@ -16,16 +16,38 @@ const initialState: ProductState = {
 
 export const purchaseItem = createAsyncThunk(
     'product/purchaseItem',
-    async (productId: string) => {
+    async (productId: string, { rejectWithValue }) => {
         const idempotencyKey = uuidv4();
         const userId = `user-${Math.floor(Math.random() * 10000)}`; // Simple random user for demo
 
-        const response = await axios.post('/api/hold', {
-            userId,
-            productId,
-            idempotencyKey,
-        });
-        return response.data;
+        try {
+            const response = await axios.post('/api/hold', {
+                userId,
+                productId,
+                idempotencyKey,
+            });
+            return response.data;
+        } catch (error: any) {
+            // Handle API errors with better messages
+            if (error.response) {
+                const status = error.response.status;
+                const message = error.response.data?.error || error.response.data?.message || 'Purchase failed';
+                
+                if (status === 409) {
+                    return rejectWithValue('Sold Out - Item is no longer available');
+                } else if (status === 400) {
+                    return rejectWithValue('Invalid request. Please try again.');
+                } else if (status >= 500) {
+                    return rejectWithValue('Server error. Please try again later.');
+                }
+                
+                return rejectWithValue(message);
+            } else if (error.request) {
+                return rejectWithValue('Network error. Please check your connection.');
+            } else {
+                return rejectWithValue('An unexpected error occurred.');
+            }
+        }
     }
 );
 
@@ -47,11 +69,15 @@ const productSlice = createSlice({
             })
             .addCase(purchaseItem.fulfilled, (state) => {
                 state.status = 'succeeded';
+                state.error = null; // Clear any previous errors
             })
             .addCase(purchaseItem.rejected, (state, action) => {
                 state.status = 'failed';
-                state.error = action.error.message || 'Purchase failed';
-                state.stock += 1;
+                state.error = (action.payload as string) || action.error.message || 'Purchase failed';
+                // Only rollback stock if we optimistically decremented it
+                if (state.stock >= 0) {
+                    state.stock += 1;
+                }
             });
     },
 });
