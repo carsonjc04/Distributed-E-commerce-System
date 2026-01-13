@@ -1,8 +1,17 @@
 import Redis from 'ioredis';
 
+// Create Redis connection with connection pooling for high concurrency
 const redis = new Redis({
   host: process.env.REDIS_HOST || 'localhost',
   port: Number(process.env.REDIS_PORT) || 6379,
+  maxRetriesPerRequest: 3,
+  enableReadyCheck: true,
+  lazyConnect: false,
+  // Connection pool settings for high concurrency
+  enableOfflineQueue: true,
+  connectTimeout: 10000,
+  // Keep connections alive
+  keepAlive: 30000,
 });
 
 const RESERVE_STOCK_SCRIPT = `

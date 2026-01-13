@@ -14,11 +14,32 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Optimize Express for high concurrency
+app.disable('x-powered-by'); // Remove unnecessary header
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' })); // Set body size limit
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(metricsMiddleware);
 
+// Add request timeout middleware
+app.use((req, res, next) => {
+    req.setTimeout(30000); // 30 second timeout
+    res.setTimeout(30000);
+    next();
+});
+
 const httpServer = createServer(app);
+
+// Optimize HTTP server for high concurrency
+httpServer.keepAliveTimeout = 65000; // 65 seconds (longer than default)
+httpServer.headersTimeout = 66000; // Must be > keepAliveTimeout
+httpServer.maxHeadersCount = 2000; // Increase max headers
+
+// Increase max connections (Node.js default is ~10,000)
+// Note: This is a soft limit, actual limit depends on system resources
+if (process.platform !== 'win32') {
+    process.setMaxListeners(0); // Remove listener limit warning
+}
 
 initSocket(httpServer);
 
