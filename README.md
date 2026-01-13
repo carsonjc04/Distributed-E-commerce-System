@@ -472,8 +472,6 @@ The admin dashboard provides comprehensive monitoring of system performance duri
 
 <img width="713" height="555" alt="Screenshot 2026-01-13 at 2 30 50 pm" src="https://github.com/user-attachments/assets/2f9411b9-7184-434d-8f38-cf6d15c2178a" />
 
-https://github.com/carsonjc04/Distributed-E-commerce-System/blob/main/Screenshots/Screenshot%202026-01-13%20at%202.30.50%E2%80%AFpm.png?raw=true<img width="1426" height="1110" alt="image" src="https://github.com/user-attachments/assets/2a7c076f-882e-42f5-b92b-738ca2d17642" />
-
 
 
 ## Design Decisions & Trade-offs
