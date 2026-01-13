@@ -333,23 +333,11 @@ All of this happens in parallel, ensuring the API responds in < 15ms while maint
 
 The admin dashboard provides comprehensive monitoring of system performance during flash sales:
 
-![Admin Dashboard](Screenshots/Screenshot%202025-11-24%20at%207.10.34%20pm.png)
+[![Admin Dashboard](Screenshots/Screenshot%202025-11-24%20at%207.10.34%20pm.png)](https://github.com/carsonjc04/Distributed-E-commerce-System/blob/main/Screenshots/Screenshot%202025-11-24%20at%207.10.34%E2%80%AFpm.png)
 
-*Real-time metrics display showing system health, throughput, latency percentiles, and order statistics.*
 
-### Load Test Visualization
+[![Load Test Visualization](Screenshots/Screenshot%202025-11-24%20at%207.11.14%20pm.png)](https://github.com/carsonjc04/Distributed-E-commerce-System/blob/main/Screenshots/Screenshot%202025-11-24%20at%207.11.14%E2%80%AFpm.png)
 
-Interactive charts visualize system performance during stress tests:
-
-![Load Test Visualization](Screenshots/Screenshot%202025-11-24%20at%207.11.14%20pm.png)
-
-*Throughput and latency trends over time, showing how the system handles concurrent load.*
-
-*Note: Add more screenshots here showing:*
-- *Real-time inventory updates*
-- *System health indicators during load*
-- *Order metrics and success rates*
-- *Latency percentile breakdowns*
 
 ## Design Decisions & Trade-offs
 
