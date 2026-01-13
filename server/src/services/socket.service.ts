@@ -13,10 +13,10 @@ export const initSocket = (server: HttpServer) => {
     });
 
     io.on('connection', (socket) => {
-        console.log('Admin connected:', socket.id);
+        // Admin connected via WebSocket
 
         socket.on('disconnect', () => {
-            console.log('Admin disconnected:', socket.id);
+            // Admin disconnected
         });
     });
 

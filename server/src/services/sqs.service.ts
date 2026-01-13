@@ -26,7 +26,6 @@ export const sendMessage = async (body: any) => {
             MessageBody: JSON.stringify(body),
         });
         await sqsClient.send(command);
-        console.log(`Message sent to SQS: ${JSON.stringify(body)}`);
     } catch (error) {
         console.error("Error sending message to SQS:", error);
         throw error;

@@ -52,11 +52,10 @@ export default function AdminDashboard() {
 
     useEffect(() => {
         socket.on('connect', () => {
-            console.log('Connected to WebSocket');
+            // WebSocket connected
         });
 
         socket.on('inventory_update', (data: { productId: string; stock: number }) => {
-            console.log('Inventory Update:', data);
             setStock(data.stock);
 
             // Flash effect
@@ -83,7 +82,7 @@ export default function AdminDashboard() {
             const response = await axios.get('/api/metrics');
             setMetrics(response.data);
         } catch (error) {
-            console.error('Failed to fetch metrics:', error);
+            // Metrics fetch failed - will retry on next WebSocket update
         }
     };
 

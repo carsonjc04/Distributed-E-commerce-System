@@ -22,4 +22,13 @@ dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.log
+server.log
+worker.log
+client.log
+
+# LocalStack volume data
+volume/
+
+# Docker
 docker-data/

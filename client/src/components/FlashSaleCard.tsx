@@ -20,7 +20,6 @@ export default function FlashSaleCard() {
                 const response = await axios.get(`/api/product/${PRODUCT_ID}/stock`);
                 dispatch(setStock(response.data.stock));
             } catch (error) {
-                console.error('Failed to fetch initial stock:', error);
                 // If fetch fails, try to initialize stock via admin endpoint
                 try {
                     await axios.post('/api/admin/inventory', {
@@ -29,7 +28,7 @@ export default function FlashSaleCard() {
                     });
                     dispatch(setStock(100));
                 } catch (initError) {
-                    console.error('Failed to initialize stock:', initError);
+                    // Stock initialization failed
                 }
             }
         };
@@ -55,8 +54,7 @@ export default function FlashSaleCard() {
             try {
                 await dispatch(purchaseItem(PRODUCT_ID)).unwrap();
             } catch (error: any) {
-                console.error('Purchase failed:', error);
-                // Error is already handled by Redux, but we can show additional feedback
+                // Error is already handled by Redux and displayed in UI
             }
         }
     };

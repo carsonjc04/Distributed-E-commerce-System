@@ -7,10 +7,7 @@ import { getQueueUrl } from "./services/sqs.service";
 import { ensureTableExists } from "./services/db-init.service";
 
 const processMessages = async () => {
-    console.log("Worker started. Initializing DB...");
     await ensureTableExists();
-    console.log("Worker polling for messages...");
-
     const queueUrl = await getQueueUrl();
 
     while (true) {
@@ -25,8 +22,6 @@ const processMessages = async () => {
 
             if (response.Messages && response.Messages.length > 0) {
                 for (const message of response.Messages) {
-                    console.log(`Processing Order: ${message.Body}`);
-
                     if (message.Body) {
                         const body = JSON.parse(message.Body);
 
@@ -44,7 +39,6 @@ const processMessages = async () => {
                         });
 
                         await dynamoClient.send(putCommand);
-                        console.log("Order Saved to DB");
                     }
 
                     // Delete message after processing
