@@ -466,11 +466,14 @@ All of this happens in parallel, ensuring the API responds in < 15ms while maint
 ### Admin Dashboard with Real-time Metrics
 
 The admin dashboard provides comprehensive monitoring of system performance during flash sales:
+<img width="726" height="661" alt="Screenshot 2025-11-24 at 7 10 34 pm" src="https://github.com/user-attachments/assets/e5ad4c88-b0c4-4a3e-bbd4-72bed6a4c678" />
 
-[![Admin Dashboard](Screenshots/Screenshot%202025-11-24%20at%207.10.34%20pm.png)](https://github.com/carsonjc04/Distributed-E-commerce-System/blob/main/Screenshots/Screenshot%202025-11-24%20at%207.10.34%E2%80%AFpm.png)
+<img width="752" height="673" alt="Screenshot 2025-11-24 at 7 11 14 pm" src="https://github.com/user-attachments/assets/039e1393-6a02-45c2-8dd8-f9c607b86a57" />
 
+<img width="713" height="555" alt="Screenshot 2026-01-13 at 2 30 50 pm" src="https://github.com/user-attachments/assets/2f9411b9-7184-434d-8f38-cf6d15c2178a" />
 
-[![Load Test Visualization](Screenshots/Screenshot%202025-11-24%20at%207.11.14%20pm.png)](https://github.com/carsonjc04/Distributed-E-commerce-System/blob/main/Screenshots/Screenshot%202025-11-24%20at%207.11.14%E2%80%AFpm.png)
+https://github.com/carsonjc04/Distributed-E-commerce-System/blob/main/Screenshots/Screenshot%202026-01-13%20at%202.30.50%E2%80%AFpm.png?raw=true<img width="1426" height="1110" alt="image" src="https://github.com/user-attachments/assets/2a7c076f-882e-42f5-b92b-738ca2d17642" />
+
 
 
 ## Design Decisions & Trade-offs
